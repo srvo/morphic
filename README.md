@@ -1,3 +1,84 @@
+# Morphic Unified Search Tool
+
+The Morphic Unified Search Tool integrates multiple data sources into a single search interface, providing comprehensive and relevant results across different domains.
+
+## Features
+
+- **Integrated Search**: Combine results from multiple data sources
+- **Local Package Support**: Works with local PhysRisk and Watchman services
+- **Flexible Configuration**: Easily configure through environment variables
+- **Rate Limiting**: Built-in rate limiting for API calls
+- **Extensible Architecture**: Add new data sources through adapters
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/srvo/morphic.git
+   cd morphic
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configure environment variables:
+   ```bash
+   cp unified-search/.env.example unified-search/.env
+   # Edit the .env file with your configurations
+   ```
+
+## Usage
+
+Run the search tool:
+```bash
+python unified-search/main.py
+```
+
+## Documentation
+
+For detailed documentation, see the [docs](docs/) directory.
+
+## Testing
+
+### Running Tests
+
+To run all tests:
+```bash
+pip install -r requirements-test.txt
+python -m pytest tests/
+```
+
+To run tests with coverage report:
+```bash
+python -m pytest --cov=unified_search tests/
+```
+
+### Test Structure
+
+- **Unit Tests**: Located in `tests/unit/`
+  - Test individual components in isolation
+  - Mock external dependencies
+  
+- **Integration Tests**: Located in `tests/integration/`
+  - Test how components work together
+  - Verify end-to-end functionality
+
+### Writing Tests
+
+1. Create a new test file in the appropriate directory
+2. Use pytest fixtures for test setup
+3. Follow the existing test patterns
+4. Add meaningful test descriptions
+
+## Contributing
+
+Contributions are welcome! Please see our [contribution guidelines](CONTRIBUTING.md).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 # Morphic
 
 An AI-powered search engine with a generative UI.

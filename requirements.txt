@@ -1,0 +1,9 @@
+# Core dependencies
+requests>=2.32.0
+trafilatura>=2.0.0
+uv>=0.1.0
+
+# Testing dependencies
+pytest>=7.0.0
+pytest-cov>=3.0.0
+requests-mock>=1.9.3

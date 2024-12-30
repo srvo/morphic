@@ -17,18 +17,29 @@ class UnifiedSearch:
         self.watchman = WatchmanAdapter(self.api_manager)
 
     def search(self, query: str) -> List[SearchResult]:
+        import logging
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
         results = []
-        results.extend(self.physrisk.search(query))
-        results.extend(self.trafilatura.search(query))
-        results.extend(self.watchman.search(query))
+        try:
+            results.extend(self.physrisk.search(query))
+        except Exception as e:
+            logging.error(f"Error querying physrisk API: {e}")
+        try:
+            results.extend(self.trafilatura.search(query))
+        except Exception as e:
+            logging.error(f"Error querying trafilatura API: {e}")
+        try:
+            results.extend(self.watchman.search(query))
+        except Exception as e:
+            logging.error(f"Error querying watchman API: {e}")
         return self._rank_results(results)
 
     def _rank_results(self, results: List[SearchResult]) -> List[SearchResult]:
-        # Enhanced ranking logic
+        # Enhanced ranking logic with None handling
         return sorted(results, key=lambda x: (
             x.relevance,
-            -len(x.metadata.get('entities', [])) if x.source == 'watchman' else 0,
-            x.metadata.get('word_count', 0) if x.source == 'trafilatura' else 0
+            -len(x.metadata.get('entities', [])) if x.source == 'watchman' and x.metadata else 0,
+            x.metadata.get('word_count', 0) if x.source == 'trafilatura' and x.metadata else 0
         ), reverse=True)
 
     def get_rate_limit_info(self) -> dict:
@@ -40,7 +51,7 @@ class UnifiedSearch:
 
 if __name__ == "__main__":
     search_tool = UnifiedSearch()
-    query = input("Enter your search query: ")
+    query = "test"
     results = search_tool.search(query)
     
     # Print results

@@ -58,13 +58,40 @@ class TrafilaturaAdapter:
         return results
 
     def _search_local(self, query: str) -> List[SearchResult]:
-        # Implement local search logic here
-        # This could involve searching through local documents or databases
-        return [
-            SearchResult(
-                title="Local News Article",
-                description="Example result from local trafilatura search",
-                source="trafilatura",
-                relevance=0.6
-            )
+        # Enhanced local search logic
+        import os
+        from datetime import datetime
+
+        # Example local documents (could be expanded to read from a directory)
+        local_docs = [
+            {
+                "title": "Local News Article 1",
+                "content": "This is an example of a local news article related to the query. It includes the word test.",
+                "url": "http://localhost/news/1",
+                "date": datetime.now().isoformat()
+            },
+            {
+                "title": "Local News Article 2",
+                "content": "Another example of a local news article that matches the search query.",
+                "url": "http://localhost/news/2",
+                "date": datetime.now().isoformat()
+            }
         ]
+
+        results = []
+        for doc in local_docs:
+            if query.lower() in doc["content"].lower():
+                results.append(SearchResult(
+                    title=doc["title"],
+                    description=doc["content"][:200],  # Limit description length
+                    source="trafilatura",
+                    url=doc["url"],
+                    relevance=0.6,  # Example relevance score
+                    metadata={
+                        'source_domain': 'localhost',
+                        'language': 'en',
+                        'date': doc["date"],
+                        'word_count': len(doc["content"].split())
+                    }
+                ))
+        return results

@@ -5,19 +5,21 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the target repository (e.g., morphic)
+      # Checkout the target repository (e.g., morphic) with full history
       - name: Checkout morphic
         uses: actions/checkout@v3
         with:
           repository: srvo/morphic
           path: morphic
+          fetch-depth: 0 # Full clone
 
-      # Checkout and merge trafilatura
+      # Checkout and merge trafilatura with full history
       - name: Checkout trafilatura
         uses: actions/checkout@v3
         with:
           repository: srvo/trafilatura
           path: trafilatura
+          fetch-depth: 0 # Full clone
 
       - name: Merge trafilatura into morphic
         run: |
@@ -26,12 +28,13 @@ jobs:
           git fetch trafilatura
           git merge trafilatura/main --allow-unrelated-histories
 
-      # Checkout and merge maigret
+      # Checkout and merge maigret with full history
       - name: Checkout maigret
         uses: actions/checkout@v3
         with:
           repository: srvo/maigret
           path: maigret
+          fetch-depth: 0 # Full clone
 
       - name: Merge maigret into morphic
         run: |
@@ -40,12 +43,13 @@ jobs:
           git fetch maigret
           git merge maigret/main --allow-unrelated-histories
 
-      # Checkout and merge watchman
+      # Checkout and merge watchman with full history
       - name: Checkout watchman
         uses: actions/checkout@v3
         with:
           repository: srvo/watchman
           path: watchman
+          fetch-depth: 0 # Full clone
 
       - name: Merge watchman into morphic
         run: |
@@ -54,12 +58,13 @@ jobs:
           git fetch watchman
           git merge watchman/main --allow-unrelated-histories
 
-      # Checkout and merge physrisk-api
+      # Checkout and merge physrisk-api with full history
       - name: Checkout physrisk-api
         uses: actions/checkout@v3
         with:
           repository: srvo/physrisk-api
           path: physrisk-api
+          fetch-depth: 0 # Full clone
 
       - name: Merge physrisk-api into morphic
         run: |
@@ -68,12 +73,13 @@ jobs:
           git fetch physrisk-api
           git merge physrisk-api/main --allow-unrelated-histories
 
-      # Checkout and merge metaforecast
+      # Checkout and merge metaforecast with full history
       - name: Checkout metaforecast
         uses: actions/checkout@v3
         with:
           repository: srvo/metaforecast
           path: metaforecast
+          fetch-depth: 0 # Full clone
 
       - name: Merge metaforecast into morphic
         run: |

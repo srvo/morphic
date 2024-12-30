@@ -1,0 +1,89 @@
+name: Merge Repositories
+on:
+  workflow_dispatch: # Manually trigger the workflow
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the target repository (e.g., morphic)
+      - name: Checkout morphic
+        uses: actions/checkout@v3
+        with:
+          repository: srvo/morphic
+          path: morphic
+
+      # Checkout and merge trafilatura
+      - name: Checkout trafilatura
+        uses: actions/checkout@v3
+        with:
+          repository: srvo/trafilatura
+          path: trafilatura
+
+      - name: Merge trafilatura into morphic
+        run: |
+          cd morphic
+          git remote add trafilatura ../trafilatura
+          git fetch trafilatura
+          git merge trafilatura/main --allow-unrelated-histories
+
+      # Checkout and merge maigret
+      - name: Checkout maigret
+        uses: actions/checkout@v3
+        with:
+          repository: srvo/maigret
+          path: maigret
+
+      - name: Merge maigret into morphic
+        run: |
+          cd morphic
+          git remote add maigret ../maigret
+          git fetch maigret
+          git merge maigret/main --allow-unrelated-histories
+
+      # Checkout and merge watchman
+      - name: Checkout watchman
+        uses: actions/checkout@v3
+        with:
+          repository: srvo/watchman
+          path: watchman
+
+      - name: Merge watchman into morphic
+        run: |
+          cd morphic
+          git remote add watchman ../watchman
+          git fetch watchman
+          git merge watchman/main --allow-unrelated-histories
+
+      # Checkout and merge physrisk-api
+      - name: Checkout physrisk-api
+        uses: actions/checkout@v3
+        with:
+          repository: srvo/physrisk-api
+          path: physrisk-api
+
+      - name: Merge physrisk-api into morphic
+        run: |
+          cd morphic
+          git remote add physrisk-api ../physrisk-api
+          git fetch physrisk-api
+          git merge physrisk-api/main --allow-unrelated-histories
+
+      # Checkout and merge metaforecast
+      - name: Checkout metaforecast
+        uses: actions/checkout@v3
+        with:
+          repository: srvo/metaforecast
+          path: metaforecast
+
+      - name: Merge metaforecast into morphic
+        run: |
+          cd morphic
+          git remote add metaforecast ../metaforecast
+          git fetch metaforecast
+          git merge metaforecast/main --allow-unrelated-histories
+
+      # Push the merged changes to morphic
+      - name: Push merged changes to morphic
+        run: |
+          cd morphic
+          git push origin main

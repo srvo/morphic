@@ -1,11 +1,11 @@
-name: Merge Repositories
+name: Merge Repositories into Subdirectories
 on:
   workflow_dispatch: # Manually trigger the workflow
 jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the target repository (e.g., morphic) with full history
+      # Checkout the target repository (e.g., morphic)
       - name: Checkout morphic
         uses: actions/checkout@v3
         with:
@@ -13,7 +13,7 @@ jobs:
           path: morphic
           fetch-depth: 0 # Full clone
 
-      # Checkout and merge trafilatura with full history
+      # Checkout trafilatura and copy its files into a subdirectory
       - name: Checkout trafilatura
         uses: actions/checkout@v3
         with:
@@ -21,14 +21,12 @@ jobs:
           path: trafilatura
           fetch-depth: 0 # Full clone
 
-      - name: Merge trafilatura into morphic
+      - name: Copy trafilatura into morphic/trafilatura
         run: |
-          cd morphic
-          git remote add trafilatura ../trafilatura
-          git fetch trafilatura
-          git merge trafilatura/main --allow-unrelated-histories
+          mkdir -p morphic/trafilatura
+          cp -r trafilatura/* morphic/trafilatura/
 
-      # Checkout and merge maigret with full history
+      # Checkout maigret and copy its files into a subdirectory
       - name: Checkout maigret
         uses: actions/checkout@v3
         with:
@@ -36,14 +34,12 @@ jobs:
           path: maigret
           fetch-depth: 0 # Full clone
 
-      - name: Merge maigret into morphic
+      - name: Copy maigret into morphic/maigret
         run: |
-          cd morphic
-          git remote add maigret ../maigret
-          git fetch maigret
-          git merge maigret/main --allow-unrelated-histories
+          mkdir -p morphic/maigret
+          cp -r maigret/* morphic/maigret/
 
-      # Checkout and merge watchman with full history
+      # Checkout watchman and copy its files into a subdirectory
       - name: Checkout watchman
         uses: actions/checkout@v3
         with:
@@ -51,14 +47,12 @@ jobs:
           path: watchman
           fetch-depth: 0 # Full clone
 
-      - name: Merge watchman into morphic
+      - name: Copy watchman into morphic/watchman
         run: |
-          cd morphic
-          git remote add watchman ../watchman
-          git fetch watchman
-          git merge watchman/main --allow-unrelated-histories
+          mkdir -p morphic/watchman
+          cp -r watchman/* morphic/watchman/
 
-      # Checkout and merge physrisk-api with full history
+      # Checkout physrisk-api and copy its files into a subdirectory
       - name: Checkout physrisk-api
         uses: actions/checkout@v3
         with:
@@ -66,14 +60,12 @@ jobs:
           path: physrisk-api
           fetch-depth: 0 # Full clone
 
-      - name: Merge physrisk-api into morphic
+      - name: Copy physrisk-api into morphic/physrisk-api
         run: |
-          cd morphic
-          git remote add physrisk-api ../physrisk-api
-          git fetch physrisk-api
-          git merge physrisk-api/main --allow-unrelated-histories
+          mkdir -p morphic/physrisk-api
+          cp -r physrisk-api/* morphic/physrisk-api/
 
-      # Checkout and merge metaforecast with full history
+      # Checkout metaforecast and copy its files into a subdirectory
       - name: Checkout metaforecast
         uses: actions/checkout@v3
         with:
@@ -81,15 +73,17 @@ jobs:
           path: metaforecast
           fetch-depth: 0 # Full clone
 
-      - name: Merge metaforecast into morphic
+      - name: Copy metaforecast into morphic/metaforecast
         run: |
-          cd morphic
-          git remote add metaforecast ../metaforecast
-          git fetch metaforecast
-          git merge metaforecast/main --allow-unrelated-histories
+          mkdir -p morphic/metaforecast
+          cp -r metaforecast/* morphic/metaforecast/
 
-      # Push the merged changes to morphic
-      - name: Push merged changes to morphic
+      # Commit and push the changes to morphic
+      - name: Commit and push changes to morphic
         run: |
           cd morphic
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Merged repositories into subdirectories"
           git push origin main

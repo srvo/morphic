@@ -18,15 +18,26 @@ The Morphic Unified Search Tool integrates multiple data sources into a single s
    cd morphic
    ```
 
-2. Install dependencies:
+2. Set up virtual environment:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+   ```
+
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Configure environment variables:
+4. Configure environment variables:
    ```bash
    cp unified-search/.env.example unified-search/.env
    # Edit the .env file with your configurations
+   ```
+
+5. (Optional) Install development dependencies:
+   ```bash
+   pip install -r requirements-test.txt
    ```
 
 ## Usage
